@@ -1,0 +1,18 @@
+{
+  "name": "create-claude-team",
+  "version": "1.0.0",
+  "description": "Set up a Claude Code AI team config for any project",
+  "type": "module",
+  "bin": {
+    "create-claude-team": "./bin/create.mjs"
+  },
+  "files": [
+    "bin/",
+    "template/"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "keywords": ["claude", "claude-code", "ai", "team", "scaffold"],
+  "license": "MIT"
+}
