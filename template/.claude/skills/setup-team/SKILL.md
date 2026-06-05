@@ -11,28 +11,56 @@ You are setting up the Claude Code team configuration for a new project. Walk th
 
 ## Step 1 — Gather project info
 
-Ask the Tech Lead these questions **in a single message** (numbered list):
+Ask questions **one at a time**. After each answer, acknowledge it briefly (one line), then ask the next question. Do NOT ask multiple questions in one message. Do NOT generate files until all 10 questions are answered.
+
+Start with question 1:
 
 1. **Project name** — what's the name of this project/product? (used in CLAUDE.md headings and commit prefixes)
-2. **Ticket prefix** — 2–5 letter prefix for tickets (e.g. PROJ, CRM, APP, SHO). Will become `PROJ-NNN` in commits.
-3. **One-liner** — describe the product in one sentence (e.g. "B2B SaaS for salon management", "Internal HR portal").
+
+After the answer, ask question 2:
+
+2. **Ticket prefix** — 2–5 letter prefix for tickets (e.g. PROJ, CRM, APP). Will become `PREFIX-NNN` in commits.
+
+After the answer, ask question 3:
+
+3. **One-liner** — describe the product in one sentence (e.g. "B2B SaaS for salon management").
+
+After the answer, ask question 4:
+
 4. **Backend stack** — choose one:
    - A) .NET 10 + C# + EF Core + MSSQL
    - B) Node.js + TypeScript + Express/Fastify + PostgreSQL/MySQL
    - C) Python + FastAPI/Django + PostgreSQL
    - D) Go + PostgreSQL
    - E) Other (describe)
+After the answer, ask question 5:
+
 5. **Frontend stack** — choose one:
    - A) Next.js + React + TypeScript + Tailwind
    - B) React (Vite) + TypeScript + Tailwind
    - C) Vue 3 + TypeScript
    - D) No frontend (API only)
    - E) Other (describe)
+
+After the answer, ask question 6:
+
 6. **Monorepo?** — yes/no. If yes, what are the top-level app folder names? (e.g. `apps/api`, `apps/web`)
+
+After the answer, ask question 7:
+
 7. **Deploy platform** — where does this run? (e.g. Railway + Vercel, AWS, Azure, Fly.io, Docker self-hosted)
-8. **Multi-tenant?** — does the app isolate data per customer/organization/clinic/etc.? yes/no. If yes, briefly describe the isolation model (e.g. "per-tenant DB", "shared DB with TenantId column", "row-level security").
+
+After the answer, ask question 8:
+
+8. **Multi-tenant?** — does the app isolate data per customer/organization/clinic/etc.? yes/no. If yes, briefly describe the isolation model.
+
+After the answer, ask question 9:
+
 9. **Bilingual UI?** — does the frontend need multiple languages? If yes, which languages?
-10. **Stakeholder name** — who is the business stakeholder? (first name is fine, used in CLAUDE.md to set context)
+
+After the answer, ask question 10:
+
+10. **Stakeholder name** — who is the business stakeholder? (first name is fine)
 
 ---
 
