@@ -2,6 +2,10 @@
 
 Claude Code AI team config — ერთი ბრძანებით ნებისმიერ პროექტში.
 
+ერთ `.claude/` setup-ში იღებ სრულ AI dev team-ს: 9 სპეციალისტი agent, რომელთაც
+Claude ორკესტრირებს როგორც Engineering Manager, + auto-apply წესები, skills,
+git hooks და slash commands — შენი stack-ზე მორგებული.
+
 ## გამოყენება
 
 ### ვარიანტი A — npm-დან (გამოქვეყნების შემდეგ)
@@ -13,23 +17,63 @@ npx create-claude-team
 ### ვარიანტი B — ლოკალურად (გამოქვეყნებამდე)
 ```bash
 cd your-project
-node C:\path\to\claude-team-template\bin\create.mjs
+node /path/to/create-claude-team/bin/create.mjs
 ```
+
+CLI დასვამს 7 კითხვას (~2 წუთი), შემდეგ:
+- დააკოპირებს `.claude/` agents, rules, compositions, skills, hooks, commands
+- შეავსებს `CLAUDE.md`-ს შენი stack-ის და project name-ის მიხედვით
+- `/check`-ს და pre-push hook-ს მოარგებს build/test command-ებს
+- `.gitignore`-ს დაუმატებს `CLAUDE.md` და `.claude/` — **repo-ში არ შეიტანება**
+
+ინსტალაციის შემდეგ გახსენი Claude Code პროექტში და გაუშვი `/setup-team` —
+დარჩენილ დეტალებს ინტერაქტიულად დააზუსტებს.
 
 ---
 
-CLI დასვამს 7 კითხვას (~2 წუთი), შემდეგ:
-- დააკოპირებს `.claude/` agents, hooks, skills, commands
-- შეავსებს `CLAUDE.md`-ს შენი stack-ის და project name-ის მიხედვით
-- pre-push hook-ს მოარგებს build command-ებს
-- `.gitignore`-ს დაუმატებს `CLAUDE.md` და `.claude/` — **repo-ში არ შეიტანება**
+## რას მიიღებ
+
+### Agents — სპეციალისტთა team
+Claude მუშაობს Engineering Manager-ად: ასაქმებს agent-ებს და **ამოწმებს** მათ
+შედეგს, სანამ მოგახსენებს.
+
+| Agent | როდის |
+|-------|-------|
+| `product-manager` | feature scoping, spec, ticket breakdown |
+| `architect` | system design, data model, API contracts |
+| `backend-engineer` | backend implementation |
+| `frontend-engineer` | frontend implementation |
+| `designer` | UI/UX specs, design tokens |
+| `qa-tester` | integration / e2e tests |
+| `code-reviewer` | post-change audit (read-only) |
+| `security-reviewer` | pre-release security pass (read-only) |
+| `release-manager` | CHANGELOG, version bump, runbook |
+
+### Rules — auto-apply ქცევა
+ავტომატურად ირთვება, გამოძახების გარეშე ( `.claude/rules/` ):
+- **`read-context`** — კოდის წერამდე CLAUDE.md + არსებული pattern-ების წაკითხვა
+- **`plan-to-docs`** — დამტკიცებული გეგმის `docs/decisions/`-ში შენახვა
+- **`self-improve`** — compounding loop: გამეორებული შეცდომა → ახალი წესი
+
+### Skills + Commands
+- **`pre-flight`** — კოდამდე checklist (assumptions, simplicity, surgical scope)
+- **`docs-edit`** — markdown დოკუმენტაციის წესები
+- **`/new-ticket "<ask>"`** — შემდეგი ticket სტანდარტული template-ით
+- **`/check`** — build + tests, ასწორებს და loop-ავს სანამ green გახდება
+
+### Compositions — multi-role workflow-ები
+- **`new-feature`** — სრული vertical slice: spec → design → backend → frontend → tests → review
+
+### Hooks — git push-ის gate-ები
+- **`pre-push-verify.mjs`** — push-ს ბლოკავს build/typecheck/lint-ის ჩავარდნაზე
+- **`check-uncommitted.mjs`** — სესიის ბოლოს გაფრთხილება uncommitted ცვლილებებზე
 
 ---
 
 ## npm-ზე ატვირთვა
 
 ```bash
-cd claude-team-template
+cd create-claude-team
 npm login
 npm publish
 ```
