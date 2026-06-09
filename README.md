@@ -62,9 +62,16 @@ template/
     │   ├── pre-flight/          # coding pre-checklist
     │   ├── docs-edit/           # doc editing conventions
     │   └── setup-team/          # interactive wizard (for Claude)
+    ├── rules/                   # auto-apply behavioral triggers
+    │   ├── read-context.md      # read before coding
+    │   ├── plan-to-docs.md      # persist approved plans
+    │   └── self-improve.md      # compounding feedback loop
+    ├── compositions/            # multi-role workflows
+    │   └── new-feature.md       # full vertical slice
     ├── hooks/
     │   ├── pre-push-verify.mjs  # gates git push on build
     │   └── check-uncommitted.mjs
     └── commands/
-        └── new-ticket.md        # /new-ticket slash command
+        ├── new-ticket.md        # /new-ticket slash command
+        └── check.md             # /check — build + verify
 ```

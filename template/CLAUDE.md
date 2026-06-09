@@ -67,10 +67,25 @@ Local skills live in `.claude/skills/`:
 
 Slash commands in `.claude/commands/`:
 - **`/new-ticket "<ask>"`** — drafts the next PROJ-NNN ticket from a standard template
+- **`/check`** — runs the project build + tests, fixes failures, loops until green. Use before every commit.
+
+Compositions in `.claude/compositions/` are multi-role workflows:
+- **`new-feature.md`** — vertical slice (spec → design → backend → frontend → tests → review). See `compositions/README.md` for when to use one.
 
 Hooks in `.claude/hooks/` (auto-fire — no manual invocation):
 - **`pre-push-verify.mjs`** — gates `git push` on build + typecheck/lint. Exit 2 blocks the push.
 - **`check-uncommitted.mjs`** — warns at session end if there are uncommitted changes.
+
+## Rules (auto-apply)
+
+Standing instructions that fire automatically — no invocation needed. Full text in
+`.claude/rules/` (and `rules/README.md` explains the system).
+
+| Rule | Fires when | Enforces |
+|------|-----------|----------|
+| `read-context.md` | Before writing/editing any code | Read `CLAUDE.md` + sub-context, scan existing patterns first |
+| `plan-to-docs.md` | After an approved plan for a significant change | Save it to `docs/decisions/NNN-*.md` before coding |
+| `self-improve.md` | When the same mistake repeats | Encode the fix as a rule/skill so it compounds, doesn't recur |
 
 ## Commit convention
 

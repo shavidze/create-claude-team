@@ -197,6 +197,21 @@ if (existsSync(hookPath)) {
   writeFileSync(hookPath, content, 'utf8');
 }
 
+// ── patch /check command ──────────────────────────────────────────────────────
+
+const checkPath = join(target, '.claude', 'commands', 'check.md');
+const checkCommands = {
+  0: { build: `dotnet build apps/api/${projectName}.slnx --nologo`, test: 'dotnet test' },
+  1: { build: 'pnpm build', test: 'pnpm test' },
+  2: { build: 'ruff check .', test: 'python -m pytest' },
+  3: { build: 'go build ./...', test: 'go test ./...' },
+  4: { build: '[your build command]', test: '[your test command]' },
+};
+patchFile(checkPath, {
+  '[BUILD_COMMAND]': checkCommands[backendIdx].build,
+  '[TEST_COMMAND]': checkCommands[backendIdx].test,
+});
+
 // ── patch settings.json ───────────────────────────────────────────────────────
 
 const settingsPath = join(target, '.claude', 'settings.json');
@@ -250,6 +265,8 @@ Setup complete!
   Tickets : ${ticketPrefix}-NNN
   Backend : ${backendLabels[backendIdx]}
   Frontend: ${frontendLabels[frontendIdx]}
+  Commands: /new-ticket, /check (build: ${checkCommands[backendIdx].build})
+  Rules   : read-context, plan-to-docs, self-improve (auto-apply)
   .gitignore updated (CLAUDE.md and .claude/ are local-only)
 
 Next step:
