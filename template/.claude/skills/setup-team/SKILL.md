@@ -71,10 +71,13 @@ Once you have all answers, show a summary:
 > **About to generate:**
 > - `CLAUDE.md` — customized for [PROJECT_NAME], [TICKET_PREFIX], [STACK]
 > - `.claude/agents/` — [N] agent files tailored to [STACK]
+> - `.claude/rules/` — auto-apply rules (read-context, plan-to-docs, self-improve)
+> - `.claude/compositions/` — multi-role workflows (new-feature)
+> - `.claude/commands/` — `/new-ticket` + `/check` (wired to [STACK] build/test)
 > - `.claude/hooks/pre-push-verify.mjs` — configured for [STACK] build commands
 > - `.claude/settings.json` — permissions for [STACK] CLI tools
 >
-> **Estimated files:** 14  
+> **Estimated files:** 20  
 > **This will NOT be committed** (add `.claude/` and `CLAUDE.md` to `.gitignore`)
 >
 > Proceed? (yes / adjust)
@@ -182,6 +185,18 @@ Uncomment and fill in the checks array based on chosen stacks:
 - .NET: uncomment the `dotnet build` entry, fill in solution file path
 - Node.js frontend: uncomment `pnpm typecheck` and `pnpm lint` entries
 - Add `when:` predicates to match the correct app directories
+
+### /check command customization
+
+In `.claude/commands/check.md`, replace the two placeholders with the chosen stack's commands:
+
+- `[BUILD_COMMAND]` → e.g. `dotnet build`, `pnpm build`, `ruff check .`, `go build ./...`
+- `[TEST_COMMAND]` → e.g. `dotnet test`, `pnpm test`, `python -m pytest`, `go test ./...`
+
+### Rules + compositions (no customization needed)
+
+`.claude/rules/` and `.claude/compositions/` are stack-agnostic — copy them as-is.
+Confirm `CLAUDE.md` keeps its "Rules (auto-apply)" section so the rules stay in context.
 
 ### settings.json customization
 
