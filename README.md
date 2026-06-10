@@ -6,6 +6,28 @@ Claude Code AI team config — ერთი ბრძანებით ნე�
 Claude ორკესტრირებს როგორც Engineering Manager, + auto-apply წესები, skills,
 git hooks და slash commands — შენი stack-ზე მორგებული.
 
+```mermaid
+flowchart LR
+    TL["👤 Tech Lead"] -->|"დავალება"| EM["🧠 Claude<br/>Engineering Manager"]
+
+    EM --> SPEC["📋 Spec-როლები<br/>PM · architect · designer<br/>(read-only)"]
+    EM --> IMPL["⚙️ იმპლემენტაცია<br/>backend · frontend · qa<br/>(write, ვიწრო ზონით)"]
+    EM --> REV["🔍 კონტროლი<br/>code-reviewer · security ·<br/>release-manager"]
+
+    IMPL --> V{"ვერიფიკაცია<br/>build · tests · git log"}
+    V -->|"❌"| IMPL
+    V -->|"✓"| TL
+
+    HOOK["🛡️ pre-push hook<br/>წითელი build = push დაბლოკილია"] -.- IMPL
+
+    style EM fill:#e3f2fd,stroke:#1565c0
+    style V fill:#fff3e0,stroke:#ef6c00
+    style HOOK fill:#ffebee,stroke:#c62828
+```
+
+📚 **დეტალური დოკუმენტაცია:** [პროექტის სრული აღწერა](docs/project-overview.md) ·
+[`.claude/` კონფიგურაციის გზამკვლევი](docs/claude-config-guide.md)
+
 ## გამოყენება
 
 ### ვარიანტი A — npm-დან (გამოქვეყნების შემდეგ)

@@ -15,6 +15,24 @@
 როლში — დავალებებს თარგმნის სპეციფიკაციებად, ანაწილებს სპეციალისტ agent-ებზე და
 **ამოწმებს** მათ შედეგს, სანამ ადამიანს (Tech Lead-ს) შეატყობინებს.
 
+```mermaid
+sequenceDiagram
+    actor TL as Tech Lead (ადამიანი)
+    participant EM as Claude — Engineering Manager
+    participant AG as სპეციალისტი agent
+    participant GIT as build / tests / git
+
+    TL->>EM: დავალება
+    EM->>EM: spec + წარმატების კრიტერიუმები
+    EM->>AG: dispatch (შეზღუდული tools + ზონა)
+    AG->>GIT: იმპლემენტაცია + commit
+    AG-->>EM: report: «გავაკეთე»
+    Note over EM,GIT: Trust-but-verify — სიტყვა არ კმარა
+    EM->>GIT: git log · build · ტესტების ხელახლა გაშვება
+    GIT-->>EM: ✓ ვერიფიცირებულია
+    EM-->>TL: მოხსენება: რა შეიცვალა, რა გავიდა
+```
+
 ## რეპოზიტორიის სტრუქტურა
 
 ```
@@ -71,6 +89,28 @@ create-claude-team/
 
 ბოლო ნაბიჯად მომხმარებელს ურჩევს Claude Code-ში `/setup-team`-ის გაშვებას
 დარჩენილი დეტალების ინტერაქტიულად დასაზუსტებლად.
+
+```mermaid
+flowchart TD
+    A["npx create-claude-team"] --> B["7 კითხვა<br/>სახელი · prefix · backend · frontend ·<br/>multi-tenant · i18n · stakeholder"]
+    B --> C["template/ კოპირდება<br/>სამიზნე დირექტორიაში"]
+    C --> D["Placeholder-ების ჩანაცვლება<br/>CLAUDE.md + 9 agent ფაილი"]
+    D --> E["Stack-ზე მორგება"]
+
+    E --> E1["backend-engineer.md<br/>## Stack სექცია"]
+    E --> E2["pre-push-verify.mjs<br/>checks მასივი"]
+    E --> E3["/check<br/>BUILD + TEST ბრძანებები"]
+    E --> E4["settings.json<br/>allow უფლებები"]
+
+    E1 --> F[".gitignore += CLAUDE.md, .claude/<br/>(კონფიგი ლოკალურია)"]
+    E2 --> F
+    E3 --> F
+    E4 --> F
+    F --> G["Claude Code-ში: /setup-team<br/>დეტალების დაზუსტება"]
+
+    style A fill:#e3f2fd,stroke:#1565c0
+    style G fill:#e8f5e9,stroke:#2e7d32
+```
 
 ## Template-ის შიგთავსი დეტალურად
 
