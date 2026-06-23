@@ -27,39 +27,40 @@ catch { base = execSync('git rev-parse HEAD~1').toString().trim(); }
 const changed = execSync(`git diff --name-only ${base}..HEAD`)
   .toString().split('\n').map(s => s.trim()).filter(Boolean);
 
-// ─── CUSTOMIZE THESE CHECKS FOR YOUR PROJECT ────────────────────────────────
-//
-// Each entry: { label, exe, args, when: (changedFiles) => boolean }
-// when() returns true → check runs. Return () => true to always run.
-//
+// ─── Monorepo: apps/api (NestJS) + apps/web (Next.js) + apps/mobile (React Native CLI) ───
+// Each app needs `typecheck` (and web/mobile a `lint`) script in its package.json.
 const checks = [
-  // Example: .NET backend
-  // {
-  //   label: 'dotnet build',
-  //   exe: 'dotnet',
-  //   args: ['build', 'apps/api/YourSolution.slnx', '--nologo', '--verbosity', 'quiet'],
-  //   when: files => files.some(f => f.startsWith('apps/api/')),
-  // },
-
-  // Example: Node/pnpm frontend typecheck
-  // {
-  //   label: 'pnpm typecheck',
-  //   exe: 'pnpm',
-  //   args: ['--filter', 'web', 'typecheck'],
-  //   when: files => files.some(f => /^apps\/(web|marketing)\//.test(f)),
-  // },
-
-  // Example: pnpm lint
-  // {
-  //   label: 'pnpm lint',
-  //   exe: 'pnpm',
-  //   args: ['--filter', 'web', 'lint'],
-  //   when: files => files.some(f => /^apps\/(web|marketing)\//.test(f)),
-  // },
+  {
+    label: 'pnpm typecheck',
+    exe: 'pnpm',
+    args: ['--filter', 'api', 'typecheck'],
+    when: files => files.some(f => f.startsWith('apps/api/')),
+  },
+  {
+    label: 'pnpm typecheck web',
+    exe: 'pnpm',
+    args: ['--filter', 'web', 'typecheck'],
+    when: files => files.some(f => f.startsWith('apps/web/')),
+  },
+  {
+    label: 'pnpm lint web',
+    exe: 'pnpm',
+    args: ['--filter', 'web', 'lint'],
+    when: files => files.some(f => f.startsWith('apps/web/')),
+  },
+  {
+    label: 'pnpm typecheck mobile',
+    exe: 'pnpm',
+    args: ['--filter', 'mobile', 'typecheck'],
+    when: files => files.some(f => f.startsWith('apps/mobile/')),
+  },
+  {
+    label: 'pnpm lint mobile',
+    exe: 'pnpm',
+    args: ['--filter', 'mobile', 'lint'],
+    when: files => files.some(f => f.startsWith('apps/mobile/')),
+  },
 ];
-// ────────────────────────────────────────────────────────────────────────────
-
-const failures = [];
 
 function run(label, exe, args) {
   process.stderr.write(`→ pre-push: ${label}\n`);
@@ -72,6 +73,7 @@ function run(label, exe, args) {
   }
 }
 
+const failures = [];
 let ran = false;
 for (const check of checks) {
   if (check.when(changed)) {

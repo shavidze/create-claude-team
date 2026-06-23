@@ -23,7 +23,9 @@ When you add a new rule file here, add one line to that section in `CLAUDE.md`.
 | Rule | Trigger | What it enforces |
 |------|---------|------------------|
 | `read-context.md` | Before writing/editing any code | Read `CLAUDE.md` + relevant sub-context, scan existing patterns first |
-| `plan-to-docs.md` | After an approved plan, before implementing | Persist the plan to `docs/decisions/` |
+| `plan-to-docs.md` | After an approved plan, before implementing | Persist the complete plan to `docs/decisions/` |
+| `document-work.md` | After finishing any task (bug or feature) | Record what was done: features → decision doc; bugs/small → `docs/CHANGELOG.md` |
+| `verify-before-done.md` | Before reporting any task complete | Map every read/display surface + caches + edge cases, test each, run for real |
 | `self-improve.md` | After Claude repeats a mistake | Encode the fix as a new rule/skill so it never recurs |
 
 Keep this set small. A rule the team ignores is worse than no rule — it trains

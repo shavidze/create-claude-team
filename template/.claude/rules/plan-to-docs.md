@@ -7,6 +7,12 @@ anything touching more than a couple of files.
 Before starting implementation, save the approved plan so the decision is durable
 and reviewable.
 
+Write the **complete** plan, not a summary — every step, the affected files, the data
+model / API changes, and the alternatives considered, so the feature can be built and
+reviewed from the doc alone. When the work finishes, update this same doc per
+[`document-work.md`](document-work.md) (status, what was actually done, verification,
+commit).
+
 ## Steps
 
 1. Write the plan to `docs/decisions/NNN-short-description.md`

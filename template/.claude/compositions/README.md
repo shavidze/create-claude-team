@@ -21,9 +21,21 @@ Most coding is a single tightly-coupled change. Do it directly or with one
 specialist agent. Compositions are for genuinely multi-role work — they cost more
 tokens, so the coordination has to earn its keep.
 
-## In this template
+## Critical sequencing rule for this stack
+
+Any feature that changes the GraphQL schema **must** follow this order:
+
+```
+architect (schema contract) → backend-engineer (NestJS + Prisma) → codegen → frontend-engineer (Apollo hooks)
+```
+
+Frontend cannot start until codegen has run against the new schema. Starting
+in parallel will produce type mismatches that waste a full rework cycle.
+
+## In this project
 
 - `new-feature.md` — end-to-end vertical slice for a non-trivial feature.
+  Includes the codegen gate between backend and frontend.
 
-Add your own as patterns repeat in your project (e.g. `new-integration.md`,
-`new-migration.md`).
+Add your own as patterns repeat (e.g. `new-migration.md` for schema-only changes,
+`new-integration.md` for third-party service wiring).
